@@ -1,0 +1,11 @@
+
+> amis-boilerplate@1.0.0 start
+> node server.js
+
+Web server listening on port http://0.0.0.0:3000
+[0mGET /login.html [32m200[0m 3.318 ms - 3392[0m
+[0mGET /public/sdk/iconfont.css [32m200[0m 1.672 ms - 153412[0m
+[0mGET /public/sdk/helper.css [32m200[0m 2.157 ms - 967546[0m
+[0mGET /public/sdk/sdk.css [32m200[0m 2.606 ms - 2461404[0m
+[0mGET /public/sdk/sdk.js [32m200[0m 0.707 ms - 4547800[0m
+[0mGET /favicon.ico [32m200[0m 1.215 ms - 6757[0m

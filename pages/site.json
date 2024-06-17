@@ -1,0 +1,156 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "pages": [
+      {
+        "label": "Home",
+        "url": "/",
+        "redirect": "/settings"
+      },
+      {
+        "label": "",
+        "children": [
+          {
+            "label": "内容管理",
+            "url": "/article",
+            "icon": "fa fa-file-text",
+            "schema": {
+              "type": "page",
+              "title": "页面C",
+              "body": "页面C"
+            }
+          },
+          {
+            "label": "资源管理",
+            "url": "/media",
+            "icon": "fa fa-file-image-o",
+            "schema": {
+              "type": "page",
+              "title": "页面C",
+              "body": "页面C"
+            }
+          },
+          {
+            "label": "公司品牌",
+            "url": "/brands",
+            "icon": "fa fa-university",
+            "schema": {
+              "type": "page",
+              "title": "页面C",
+              "body": "页面C"
+            }
+          },
+          {
+            "label": "反馈管理",
+            "url": "/feedback",
+            "icon": "fa fa-comment",
+            "schema": {
+              "type": "page",
+              "title": "页面C",
+              "body": "页面C"
+            }
+          },
+          {
+            "label": "系统设置",
+            "url": "/settings",
+            "icon": "fa fa-cog",
+            "schema": {
+              "type": "page",
+              "title": "Dashboard",
+              "body": [
+                {
+                  "type": "button",
+                  "label": "重建页面缓存",
+                  "onEvent": {
+                    "click": {
+                      "actions": []
+                    }
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "button",
+                  "label": "修改密码",
+                  "onEvent": {
+                    "click": {
+                      "actions": []
+                    }
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "button",
+                  "label": "设置两步验证",
+                  "onEvent": {
+                    "click": {
+                      "actions": []
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "label": "多语言支持",
+                "url": "/settings/language",
+                "icon": "fa fa-language",
+                "schemaApi": "get:/pages/language-list.json"
+              },
+              {
+                "label": "管理员",
+                "url": "/settings/adminuser",
+                "icon": "fa fa-user",
+                "schemaApi": "get:/pages/adminuser-list.json"
+              },
+              {
+                "label": "模型管理",
+                "url": "/settings/models",
+                "icon": "fa fa-cubes",
+                "schema": {
+                  "type": "page",
+                  "title": "页面C",
+                  "body": "页面C"
+                }
+              }
+            ]
+          },
+          {
+            "label": "列表示例",
+            "url": "/crud",
+            "rewrite": "/crud/list",
+            "icon": "fa fa-cube",
+            "children": [
+              {
+                "label": "列表",
+                "url": "/crud/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/crud-list.json"
+              },
+              {
+                "label": "新增",
+                "url": "/crud/new",
+                "icon": "fa fa-plus",
+                "schemaApi": "get:/pages/crud-new.json"
+              },
+              {
+                "label": "查看",
+                "url": "/crud/:id",
+                "schemaApi": "get:/pages/crud-view.json"
+              },
+              {
+                "label": "修改",
+                "url": "/crud/:id/edit",
+                "schemaApi": "get:/pages/crud-edit.json"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

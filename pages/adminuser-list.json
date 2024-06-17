@@ -1,0 +1,237 @@
+{
+  "type": "page",
+  "title": "管理员列表",
+  "toolbar": [
+    {
+      "type": "button",
+      "label": "新增",
+      "primary": true,
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "ignoreError": false,
+              "actionType": "dialog",
+              "dialog": {
+                "type": "dialog",
+                "title": "创建管理员",
+                "body": {
+                  "id": "u:06cdcf1a751a",
+                  "type": "form",
+                  "title": "表单",
+                  "mode": "horizontal",
+                  "dsType": "api",
+                  "feat": "Insert",
+                  "api": "post:${API_HOST}/v1/adminapi/admins/create",
+                  "reload": "admins",
+                  "body": [
+                    {
+                      "name": "email",
+                      "label": "邮箱",
+                      "type": "input-text"
+                    },
+                    {
+                      "name": "password",
+                      "label": "密码",
+                      "type": "input-password"
+                    },
+                    {
+                      "name": "status",
+                      "label": "状态",
+                      "type": "switch"
+                    }
+                  ],
+                  "resetAfterSubmit": true
+                },
+                "showCloseButton": true,
+                "showErrorMsg": true,
+                "showLoading": true,
+                "className": "app-popover :AMISCSSWrapper",
+                "actions": [
+                  {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消"
+                  },
+                  {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确认",
+                    "primary": true
+                  }
+                ],
+                "closeOnOutside": true,
+                "closeOnEsc": false,
+                "draggable": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "admins",
+      "api": "${API_HOST}/v1/adminapi/admins?limit=${perPage}&offset=${(page - 1) * perPage}&keywords=${keywords}",
+      "filter": {
+        "title": "",
+        "mode": "inline",
+        "wrapWithPanel": false,
+        "submitText": "",
+        "controls": [
+          {
+            "type": "text",
+            "name": "keywords",
+            "placeholder": "通过关键字搜索",
+            "addOn": {
+              "label": "搜索",
+              "type": "submit",
+              "className": "btn-success"
+            },
+            "clearable": true
+          }
+        ],
+        "className": "m-b-sm"
+      },
+      "footerToolbar": [
+        "switch-per-page",
+        "pagination"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "width": 20,
+          "sortable": true
+        },
+        {
+          "name": "email",
+          "label": "邮箱",
+          "sortable": true
+        },
+        {
+          "name": "two_factor_secret",
+          "label": "两步验证",
+          "type": "mapping",
+          "map": {
+            "": "关闭",
+            "*": "开启"
+          }
+        },
+        {
+          "name": "status",
+          "type": "switch",
+          "label": "状态",
+          "trueValue": 1,
+          "falseValue": 0,
+          "onEvent": {
+            "change": {
+              "weight": 0,
+              "actions": [
+                {
+                  "actionType": "confirmDialog",
+                  "dialog": {
+                    "type": "dialog",
+                    "title": "弹框标题",
+                    "body": [
+                      {
+                        "type": "tpl",
+                        "tpl": "确定要修改${id}吗？",
+                        "wrapperComponent": "",
+                        "inline": false
+                      }
+                    ],
+                    "showCloseButton": true,
+                    "showErrorMsg": true,
+                    "showLoading": true,
+                    "className": "app-popover",
+                    "actions": [
+                      {
+                        "type": "button",
+                        "actionType": "cancel",
+                        "label": "取消"
+                      },
+                      {
+                        "type": "button",
+                        "actionType": "confirm",
+                        "label": "确定",
+                        "primary": true
+                      }
+                    ]
+                  }
+                },
+                {
+                  "actionType": "ajax",
+                  "outputVar": "responseResult",
+                  "options": {},
+                  "api": {
+                    "method": "get",
+                    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "type": "button",
+                  "label": "修改密码",
+                  "level": "info",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "修改密码",
+                    "body": {
+                      "type": "form",
+                      "title": "表单",
+                      "mode": "horizontal",
+                      "dsType": "api",
+                      "feat": "Insert",
+                      "api": "put:${API_HOST}/v1/adminapi/admins/password/${id}",
+                      "reload": "admins",
+                      "body": {
+                        "name": "password",
+                        "label": "密码",
+                        "type": "input-password",
+                        "value": ""
+                      },
+                      "resetAfterSubmit": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "删除",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要删除?",
+                  "api": "delete:${API_HOST}/v1/adminapi/admins/$id"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
+        }
+      ],
+      "affixHeader": true,
+      "columnsTogglable": "auto",
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "combineNum": 0,
+      "bodyClassName": "panel-default"
+    }
+  ]
+}
