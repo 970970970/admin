@@ -22,7 +22,7 @@
                   "mode": "horizontal",
                   "dsType": "api",
                   "feat": "Insert",
-                  "api": "post:${API_HOST}/v1/adminapi/admins/create",
+                  "api": "post:${API_HOST}/v1/administrator/secure/create",
                   "reload": "admins",
                   "body": [
                     {
@@ -74,7 +74,7 @@
     {
       "type": "crud",
       "name": "admins",
-      "api": "${API_HOST}/v1/adminapi/admins?limit=${perPage}&offset=${(page - 1) * perPage}&keywords=${keywords}",
+      "api": "${API_HOST}/v1/administrator/secure?limit=${perPage}&offset=${(page - 1) * perPage}&keywords=${keywords}",
       "filter": {
         "title": "",
         "mode": "inline",
@@ -196,7 +196,7 @@
                       "mode": "horizontal",
                       "dsType": "api",
                       "feat": "Insert",
-                      "api": "put:${API_HOST}/v1/adminapi/admins/password/${id}",
+                      "api": "put:${API_HOST}/v1/administrator/secure/password/${id}",
                       "reload": "admins",
                       "body": {
                         "name": "password",
@@ -214,7 +214,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "delete:${API_HOST}/v1/adminapi/admins/$id"
+                  "api": "delete:${API_HOST}/v1/administrator/secure/$id"
                 }
               ]
             }

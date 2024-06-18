@@ -42,7 +42,7 @@
           "mode": "horizontal",
           "title": "",
           "api": {
-            "url": "${API_HOST}/v1/admin_login",
+            "url": "${API_HOST}/v1/utils/admin_login",
             "method": "post",
             adaptor: function (payload, response, api, context) {
               console.log(payload, response); // 打印上下文数据
@@ -67,7 +67,7 @@
                     {
                       "actionType": "ajax",
                       "api": {
-                        "url": "${API_HOST}/v1/check_admin_status",
+                        "url": "${API_HOST}/v1/utils/check_admin_status",
                         "method": "post",
                         "data": {
                           "email": "${email}"

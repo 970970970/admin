@@ -62,7 +62,7 @@
           tpl: '<div class="flex justify-between"><div>欢迎，${email} </div><div><a href="#" onclick="clearData()">登出</a></div></div>'
         },
         initApi: {
-          url: "${API_HOST}/v1/adminapi/me",
+          url: "${API_HOST}/v1/administrator/secure/me",
           method: 'get',
           adaptor: function (payload) {
             if (localStorage.getItem('token') == "") {

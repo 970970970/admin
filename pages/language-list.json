@@ -21,7 +21,7 @@
                   "mode": "horizontal",
                   "dsType": "api",
                   "feat": "Insert",
-                  "api": "post:${API_HOST}/v1/adminapi/language/create",
+                  "api": "post:${API_HOST}/v1/languages/secure/create",
                   "reload": "admins",
                   "body": [
                     {
@@ -168,7 +168,7 @@
                       "mode": "horizontal",
                       "dsType": "api",
                       "feat": "Insert",
-                      "api": "put:${API_HOST}/v1/adminapi/languages/$id",
+                      "api": "put:${API_HOST}/v1/languages/secure/$id",
                       "reload": "admins",
                       "body": [
                         {
@@ -202,7 +202,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "delete:${API_HOST}/v1/adminapi/language/$id"
+                  "api": "delete:${API_HOST}/v1/languages/secure/$id"
                 }
               ]
             }
