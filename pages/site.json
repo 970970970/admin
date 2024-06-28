@@ -25,11 +25,7 @@
             "label": "资源管理",
             "url": "/media",
             "icon": "fa fa-file-image-o",
-            "schema": {
-              "type": "page",
-              "title": "页面C",
-              "body": "页面C"
-            }
+            "schemaApi": "get:/pages/media-list.json"
           },
           {
             "label": "公司品牌",

@@ -1,0 +1,259 @@
+{
+  "type": "page",
+  "title": "资源列表",
+  "toolbar": [
+    {
+      "type": "button",
+      "label": "新增",
+      "primary": true,
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "ignoreError": false,
+              "actionType": "dialog",
+              "dialog": {
+                "type": "dialog",
+                "title": "上传文件",
+                "body": {
+                  "type": "form",
+                  "title": "表单",
+                  "mode": "horizontal",
+                  "dsType": "api",
+                  "feat": "Insert",
+                  "api": "post:${API_HOST}/v1/media/secure/upload",
+                  "reload": "media_files",
+                  "body": [
+                    {
+                      "name": "type_id",
+                      "label": "类型",
+                      "type": "select",
+                      "menuTpl": "${label}",
+                      "options": [
+                        {
+                          "label": "图片",
+                          "value": "1"
+                        },
+                        {
+                          "label": "音频",
+                          "value": "2"
+                        },
+                        {
+                          "label": "视频",
+                          "value": "3"
+                        },
+                        {
+                          "label": "文档",
+                          "value": "4"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "input-file",
+                      "name": "file",
+                      "label": "文件",
+                      "accept": "*",
+                      "receiver": "${API_HOST}/v1/media/secure/tmp_upload"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "name",
+                      "label": "名称"
+                    },
+                    {
+                      "name": "description",
+                      "type": "input-text",
+                      "label": "描述"
+                    }
+                  ],
+                  "resetAfterSubmit": true
+                },
+                "showCloseButton": true,
+                "showErrorMsg": true,
+                "showLoading": true,
+                "className": "app-popover :AMISCSSWrapper",
+                "actions": [
+                  {
+                    "type": "button",
+                    "actionType": "cancel",
+                    "label": "取消"
+                  },
+                  {
+                    "type": "button",
+                    "actionType": "confirm",
+                    "label": "确认",
+                    "primary": true
+                  }
+                ],
+                "closeOnOutside": true,
+                "closeOnEsc": false,
+                "draggable": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "media_files",
+      "api": "${API_HOST}/v1/media/secure?limit=${perPage}&offset=${(page - 1) * perPage}&keywords=${keywords}",
+      "filter": {
+        "title": "",
+        "mode": "inline",
+        "wrapWithPanel": false,
+        "submitText": "",
+        "controls": [
+          {
+            "type": "text",
+            "name": "keywords",
+            "placeholder": "通过关键字搜索",
+            "addOn": {
+              "label": "搜索",
+              "type": "submit",
+              "className": "btn-success"
+            },
+            "clearable": true
+          }
+        ],
+        "className": "m-b-sm"
+      },
+      "footerToolbar": [
+        "switch-per-page",
+        "pagination"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "width": 20,
+          "sortable": true
+        },
+        {
+          "name": "content_type",
+          "label": "编码",
+          "sortable": true
+        },
+        {
+          "name": "description",
+          "label": "描述"
+        },
+        {
+          "name": "size",
+          "label": "文件大小"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "type": "button",
+                  "label": "预览",
+                  "level": "primary",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "预览",
+                    "body": {
+                      "type": "image",
+                      "src": "${MEDIA_HOST}/${path}",
+                      "title": "${name}",
+                      "imageCaption": "${description}"
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "修改",
+                  "level": "success",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "修改资源文件",
+                    "body": {
+                      "type": "form",
+                      "title": "表单",
+                      "mode": "horizontal",
+                      "dsType": "api",
+                      "feat": "Insert",
+                      "api": "put:${API_HOST}/v1/media/secure/$id",
+                      "reload": "media_files",
+                      "body": [
+                        {
+                          "name": "type_id",
+                          "label": "类型",
+                          "type": "select",
+                          "menuTpl": "${label}",
+                          "options": [
+                            {
+                              "label": "图片",
+                              "value": "1"
+                            },
+                            {
+                              "label": "音频",
+                              "value": "2"
+                            },
+                            {
+                              "label": "视频",
+                              "value": "3"
+                            },
+                            {
+                              "label": "文档",
+                              "value": "4"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "input-file",
+                          "name": "file",
+                          "label": "文件",
+                          "accept": "*",
+                          "receiver": "${API_HOST}/v1/media/secure/tmp_upload"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "name",
+                          "label": "名称"
+                        },
+                        {
+                          "name": "description",
+                          "type": "input-text",
+                          "label": "描述"
+                        }
+                      ],
+                      "resetAfterSubmit": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "删除",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要删除?",
+                  "api": "delete:${API_HOST}/v1/media/secure/$id",
+                  "reload": "media_files"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
+        }
+      ],
+      "affixHeader": true,
+      "columnsTogglable": "auto",
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "combineNum": 0,
+      "bodyClassName": "panel-default"
+    }
+  ]
+}
