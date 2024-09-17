@@ -1,0 +1,73 @@
+{
+  "type": "page",
+  "title": "创建文章",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/article",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "title": "",
+      "type": "form",
+      "redirect": "/article/list",
+      "name": "sample-edit-form",
+      "api": "${API_HOST}/v1/articles/secure",
+      "controls": [
+        {
+          "type": "text",
+          "name": "title",
+          "label": "标题",
+          "required": true
+        },
+        {
+          "type": "text",
+          "name": "image",
+          "label": "封面图",
+          "required": false
+        },
+        {
+          "type": "text",
+          "name": "summary",
+          "label": "摘要",
+          "required": false
+        },
+        {
+          "type": "text",
+          "name": "category",
+          "label": "分类",
+          "required": true
+        },
+        {
+          "type": "text",
+          "name": "rank",
+          "label": "排序",
+          "placeholder": "数字越大越靠前",
+          "required": false
+        },
+        {
+          "label": "内容",
+          "type": "group",
+          "body": [
+            {
+              "type": "editor",
+              "name": "md",
+              "language": "markdown"
+            },
+            {
+              "type": "markdown",
+              "name": "md"
+            }
+          ]
+        },
+        {
+          "type": "divider"
+        }
+      ]
+    }
+  ]
+}

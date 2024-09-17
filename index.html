@@ -166,6 +166,12 @@
             };
             return api;
           },
+          responseAdaptor(api, payload, query, request, response) {
+            if (payload.status === 401) {
+              window.location.href = '/login.html';
+            }
+            return payload;
+          },
           updateLocation: (location, replace) => {
             location = normalizeLink(location);
             if (location === 'goBack') {

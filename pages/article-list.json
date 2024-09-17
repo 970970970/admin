@@ -1,0 +1,124 @@
+{
+  "type": "page",
+  "title": "内容列表",
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "primary": true,
+      "link": "/article/new",
+      "label": "创建文章"
+    }
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "articles",
+      "api": "${API_HOST}/v1/articles/secure?limit=${perPage}&offset=${(page - 1) * perPage}&keywords=${keywords}",
+      "filter": {
+        "title": "",
+        "mode": "inline",
+        "wrapWithPanel": false,
+        "submitText": "",
+        "controls": [
+          {
+            "type": "text",
+            "name": "keywords",
+            "placeholder": "通过关键字搜索",
+            "addOn": {
+              "label": "搜索",
+              "type": "submit",
+              "className": "btn-success"
+            },
+            "clearable": true
+          }
+        ],
+        "className": "m-b-sm"
+      },
+      "footerToolbar": [
+        "switch-per-page",
+        "pagination"
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "width": "10%",
+          "sortable": true
+        },
+        {
+          "name": "origin_id",
+          "label": "原始ID",
+          "width": "10%"
+        },
+        {
+          "name": "title",
+          "label": "标题",
+          "width": "30%",
+          "type": "tpl",
+          "tpl": "<span class='ellipsis'>${title}</span>",
+          "className": "ellipsis-column"
+        },
+        {
+          "name": "summary",
+          "label": "摘要",
+          "width": "30%",
+          "type": "tpl",
+          "tpl": "<span class='ellipsis'>${summary}</span>",
+          "className": "ellipsis-column"
+        },
+        {
+          "name": "language",
+          "label": "语言"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "label": "编辑",
+                  "type": "button",
+                  "actionType": "link",
+                  "link": "/article-edit/${id}",
+                  "level": "primary"
+                },
+                {
+                  "label": "发布",
+                  "type": "button",
+                  "actionType": "ajax",
+                  "confirmText": "确定要发布吗？",
+                  "api": "post:${API_HOST}/v1/media/secure/$id",
+                  "level": "success"
+                },
+                {
+                  "type": "button",
+                  "label": "删除",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要删除?",
+                  "api": "delete:${API_HOST}/v1/media/secure/$id",
+                  "reload": "media_files"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
+        }
+      ],
+      "affixHeader": true,
+      "columnsTogglable": "auto",
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "combineNum": 0,
+      "bodyClassName": "panel-default"
+    }
+  ]
+}

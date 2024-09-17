@@ -15,11 +15,20 @@
             "label": "内容管理",
             "url": "/article",
             "icon": "fa fa-file-text",
-            "schema": {
-              "type": "page",
-              "title": "页面C",
-              "body": "页面C"
-            }
+            "schemaApi": "get:/pages/article-list.json",
+            "children": [
+              {
+                "label": "创建文章",
+                "url": "/article/new",
+                "icon": "fa fa-plus",
+                "schemaApi": "get:/pages/article-new.json"
+              },
+              {
+                "label": "编辑文章",
+                "url": "/article-edit/:id",
+                "schemaApi": "get:/pages/article-edit.json"
+              }
+            ]
           },
           {
             "label": "资源管理",
@@ -53,6 +62,7 @@
             "icon": "fa fa-cog",
             "schema": {
               "type": "page",
+              "initApi": "${API_HOST}/v1/administrator/secure/me",
               "title": "Dashboard",
               "body": [
                 {
