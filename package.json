@@ -6,8 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "build": "node build.js",
+    "dev": "node build.js && node server.js",
     "gh-pages": "rm -rf gh-pages && fis3 release gh-pages -c",
-    "deploy-gh-pages": "git subtree push --prefix gh-pages origin gh-pages"
+    "deploy-gh-pages": "git subtree push --prefix gh-pages origin gh-pages",
+    "dev:worker": "miniflare ./src/index.ts --watch --debug"
   },
   "keywords": [
     "amis",
@@ -19,6 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",

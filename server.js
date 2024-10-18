@@ -4,6 +4,7 @@ const path = require('path');
 const reload = require('reload');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const { exec } = require('child_process');
 
 const app = express();
 
@@ -22,23 +23,32 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/public/config.js', function(req, res) {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.sendFile(path.join(__dirname, 'public', 'config.js'));
+});
+
 const server = http.createServer(app);
 
-// Reload code here
-reload(app)
-  .then(function (reloadReturned) {
-    // reloadReturned is documented in the returns API in the README
+// 在启动服务器之前运行构建脚本
+exec('node build.js', (error, stdout, stderr) => {
+  if (error) {
+    console.error(`执行构建脚本时出错: ${error}`);
+    return;
+  }
+  console.log(`构建输出: ${stdout}`);
+  if (stderr) {
+    console.error(`构建错误: ${stderr}`);
+  }
 
-    // Reload started, start web server
+  // 构建完成后启动服务器
+  reload(app).then(function (reloadReturned) {
     server.listen(app.get('port'), app.get('host'), function () {
       console.log(
         'Web server listening on port http://' + app.get('host') + ':' + app.get('port')
       );
     });
-  })
-  .catch(function (err) {
-    console.error(
-      'Reload could not start, could not start server/sample app',
-      err
-    );
+  }).catch(function (err) {
+    console.error('Reload could not start, could not start server/sample app', err);
   });
+});

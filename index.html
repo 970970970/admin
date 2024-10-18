@@ -25,6 +25,7 @@
       padding: 0;
     }
   </style>
+  <script src="/public/config.js"></script>
 </head>
 
 <body>
@@ -145,14 +146,11 @@
         {
           location: history.location,
           data: {
-            // 全局数据，是受控的数据
             email: localStorage.getItem('email')
           },
           context: {
-            // 全局上下文数据, 非受控的数据，无论哪一层都能获取到，包括弹窗自定义数据映射后都能获取到。
-            // 可以用来放一下全局配置等。比如 API_HOST, 这样页面配置里面可以通过 ${API_HOST} 来获取到。
-            API_HOST: "http://10.1.0.252:8787",
-            MEDIA_HOST: "https://media-dev.970970970.xyz"
+            API_HOST: window.APP_CONFIG.API_HOST,
+            MEDIA_HOST: window.APP_CONFIG.MEDIA_HOST
           }
         },
         {

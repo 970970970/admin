@@ -25,6 +25,7 @@
       padding: 0;
     }
   </style>
+  <script src="/public/config.js"></script>
 </head>
 
 <body>
@@ -109,9 +110,11 @@
       }
       let amisScoped = amis.embed('#root', amisJSON, {
         data: {
-          disable_2fa: true,
-          API_HOST: "http://10.1.0.252:8787"
+          disable_2fa: true
         },
+        context: {
+          API_HOST: window.APP_CONFIG.API_HOST
+        }
       });
     })();
   </script>
