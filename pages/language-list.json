@@ -132,16 +132,19 @@
           "falseValue": 0,
           "onEvent": {
             "change": {
-              "weight": 0,
               "actions": [
                 {
                   "actionType": "ajax",
-                  "outputVar": "responseResult",
-                  "options": {},
-                  "api": {
-                    "method": "get",
-                    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
-                  }
+                  "args": {
+                    "api": {
+                      "url": "${API_HOST}/v1/languages/secure/${id}/status",
+                      "method": "put",
+                      "data": {
+                        "status": "${event.data.value}"
+                      }
+                    }
+                  },
+                  "reload": "languages"
                 }
               ]
             }
