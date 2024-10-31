@@ -14,9 +14,16 @@
     {
       "title": "",
       "type": "form",
-      "redirect": "/article/list",
+      "redirect": "/article",
       "name": "sample-edit-form",
-      "api": "${API_HOST}/v1/articles/secure",
+      "api": {
+        "method": "post",
+        "url": "${API_HOST}/v1/articles/secure",
+        "messages": {
+          "success": "保存成功",
+          "failed": "保存失败"
+        }
+      },
       "controls": [
         {
           "type": "text",
@@ -37,13 +44,7 @@
           "required": false
         },
         {
-          "type": "text",
-          "name": "category",
-          "label": "分类",
-          "required": true
-        },
-        {
-          "type": "text",
+          "type": "number",
           "name": "rank",
           "label": "排序",
           "placeholder": "数字越大越靠前",
@@ -66,6 +67,18 @@
         },
         {
           "type": "divider"
+        },
+        {
+          "type": "transfer",
+          "name": "mods",
+          "label": "所属模块",
+          "source": "${API_HOST}/v1/articles/secure/mod-options",
+          "searchable": true,
+          "required": true,
+          "selectMode": "list",
+          "statistics": false,
+          "joinValues": true,
+          "delimiter": ","
         }
       ]
     }

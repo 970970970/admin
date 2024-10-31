@@ -1,0 +1,162 @@
+{
+  "type": "page",
+  "title": "模块管理",
+  "body": {
+    "type": "crud",
+    "api": "${API_HOST}/v1/articles/secure/mods",
+    "filter": {
+      "title": "",
+      "mode": "inline",
+      "wrapWithPanel": false,
+      "submitText": "",
+      "controls": [
+        {
+          "type": "text",
+          "name": "keywords",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit",
+            "className": "btn-success"
+          },
+          "clearable": true
+        }
+      ],
+      "className": "m-b-sm"
+    },
+    "bulkActions": [],
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "width": 20
+      },
+      {
+        "name": "code",
+        "label": "模块代码",
+        "sortable": true
+      },
+      {
+        "name": "name",
+        "label": "模块名称",
+        "sortable": true
+      },
+      {
+        "name": "description",
+        "label": "描述"
+      },
+      {
+        "name": "status",
+        "label": "状态",
+        "type": "switch",
+        "trueValue": 1,
+        "falseValue": 0,
+        "onEvent": {
+          "change": {
+            "actions": [
+              {
+                "actionType": "ajax",
+                "args": {
+                  "api": {
+                    "url": "${API_HOST}/v1/articles/secure/mods/${id}/status",
+                    "method": "put",
+                    "data": {
+                      "status": "${event.data.value}"
+                    }
+                  }
+                },
+                "reload": "crud"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "operation",
+        "label": "操作",
+        "buttons": [
+          {
+            "type": "button",
+            "label": "编辑",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "编辑模块",
+              "body": {
+                "type": "form",
+                "api": "put:${API_HOST}/v1/articles/secure/mods/${id}",
+                "controls": [
+                  {
+                    "type": "text",
+                    "name": "code",
+                    "label": "模块代码",
+                    "required": true
+                  },
+                  {
+                    "type": "text",
+                    "name": "name",
+                    "label": "模块名称",
+                    "required": true
+                  },
+                  {
+                    "type": "textarea",
+                    "name": "description",
+                    "label": "描述"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "button",
+            "label": "删除",
+            "level": "danger",
+            "actionType": "ajax",
+            "confirmText": "确认要删除该模块吗？",
+            "api": "delete:${API_HOST}/v1/articles/secure/mods/${id}"
+          }
+        ]
+      }
+    ],
+    "headerToolbar": [
+      {
+        "type": "button",
+        "label": "新增模块",
+        "actionType": "dialog",
+        "level": "primary",
+        "dialog": {
+          "title": "新增模块",
+          "size": "md",
+          "body": {
+            "type": "form",
+            "api": {
+              "method": "post",
+              "url": "${API_HOST}/v1/articles/secure/mods"
+            },
+            "controls": [
+              {
+                "type": "text",
+                "name": "code",
+                "label": "模块代码",
+                "required": true,
+                "placeholder": "请输入模块代码"
+              },
+              {
+                "type": "text",
+                "name": "name",
+                "label": "模块名称",
+                "required": true,
+                "placeholder": "请输入模块名称"
+              },
+              {
+                "type": "textarea",
+                "name": "description",
+                "label": "描述",
+                "placeholder": "请输入模块描述"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+} 

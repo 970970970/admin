@@ -4,8 +4,16 @@
   "body": {
     "type": "form",
     "name": "articleForm",
-    "api": "put:${API_HOST}/v1/articles/secure/${params.id}",
-    "initApi": "get:${API_HOST}/v1/articles/secure/${params.id}",
+    "api": {
+      "method": "put",
+      "url": "${API_HOST}/v1/articles/secure/${params.id}",
+      "messages": {
+        "success": "保存成功",
+        "failed": "保存失败"
+      }
+    },
+    "initApi": "${API_HOST}/v1/articles/secure/${params.id}",
+    "redirect": "/article",
     "controls": [
       {
         "type": "text",
@@ -37,12 +45,6 @@
         ]
       },
       {
-        "type": "text",
-        "name": "category",
-        "label": "分类",
-        "required": true
-      },
-      {
         "type": "static",
         "name": "language",
         "label": "语言",
@@ -71,11 +73,24 @@
         ]
       },
       {
-        "type": "submit",
-        "label": "保存"
+        "type": "transfer",
+        "name": "mods",
+        "label": "所属模块",
+        "source": "${API_HOST}/v1/articles/secure/article-mods/${params.id}",
+        "searchable": true,
+        "required": true,
+        "selectMode": "list",
+        "statistics": false,
+        "joinValues": true,
+        "delimiter": ","
       }
     ],
     "actions": [
+      {
+        "type": "submit",
+        "label": "保存",
+        "level": "primary"
+      },
       {
         "type": "button",
         "label": "发布",
