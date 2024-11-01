@@ -7,9 +7,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <link rel="stylesheet" href="public/sdk/sdk.css" />
-  <link rel="stylesheet" href="public/sdk/helper.css" />
-  <link rel="stylesheet" href="public/sdk/iconfont.css" />
+  <link rel="stylesheet" href="https://unpkg.com/amis@6.8.0/sdk/sdk.css" />
+  <link rel="stylesheet" href="https://unpkg.com/amis@6.8.0/sdk/helper.css" />
+  <link rel="stylesheet" href="https://unpkg.com/amis@6.8.0/sdk/iconfont.css" />
   <!-- 这是默认主题所需的，如果是其他主题则不需要 -->
   <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
   <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
@@ -30,11 +30,10 @@
 
 <body>
   <div id="root" class="app-wrapper"></div>
-  <script src="public/sdk/sdk.js"></script>
+  <script src="https://unpkg.com/amis@6.8.0/sdk/sdk.js"></script>
   <script type="text/javascript">
     (function () {
       let amis = amisRequire('amis/embed');
-      // 通过替换下面这个配置来生成不同页面
       let amisJSON = {
         "type": "page",
         "title": "登录",
@@ -46,14 +45,13 @@
             "url": "${API_HOST}/v1/administrator/login",
             "method": "post",
             "adaptor": function (payload, response, api, context) {
-              console.log(payload);
               if (payload.status === 0) {
                 localStorage.setItem('token', payload.data.token);
                 localStorage.setItem('email', payload.data.email);
                 localStorage.setItem('id', payload.data.id);
               }
               return payload;
-            },
+            }
           },
           "redirect": "/",
           "body": [
@@ -61,7 +59,35 @@
               "label": "邮箱",
               "type": "input-email",
               "name": "email",
-              "required": true
+              "required": true,
+              "onEvent": {
+                "blur": {
+                  "actions": [
+                    {
+                      "actionType": "ajax",
+                      "outputVar": "check_2fa",
+                      "options": {
+                        "silent": true
+                      },
+                      "api": {
+                        "url": "${API_HOST}/v1/administrator/check-2fa",
+                        "method": "post",
+                        "data": {
+                          "email": "${email}"
+                        }
+                      }
+                    },
+                    {
+                      "ignoreError": false,
+                      "actionType": "visibility",
+                      "args": {
+                        "value": "${IF(event.data.check_2fa.responseData.two_factor_enabled, true, false)}"
+                      },
+                      "componentId": "code_input"
+                    }
+                  ]
+                }
+              }
             },
             {
               "label": "密码",
@@ -73,17 +99,17 @@
               "label": "验证码",
               "type": "input-text",
               "name": "code",
+              "id": "code_input",
               "required": false,
-              "visibleOn": "this.require_2fa"
+              "visible": false,
+              "placeholder": "请输入 Google Authenticator 生成的 6 位验证码",
+              "description": "请打开 Google Authenticator 查看验证码"
             }
           ]
         }
-      }
+      };
       let amisScoped = amis.embed('#root', amisJSON, {
         data: {
-          disable_2fa: true
-        },
-        context: {
           API_HOST: window.APP_CONFIG.API_HOST
         }
       });

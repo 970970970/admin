@@ -87,95 +87,169 @@
                     "click": {
                       "actions": [
                         {
+                          "ignoreError": false,
+                          "outputVar": "result",
+                          "actionType": "ajax",
+                          "options": {
+                            "silent": true
+                          },
+                          "api": {
+                            "url": "${API_HOST}/v1/administrator/secure/me",
+                            "method": "get"
+                          }
+                        },
+                        {
+                          "ignoreError": false,
                           "actionType": "dialog",
                           "dialog": {
-                            "title": "两步验证设置",
-                            "body": {
-                              "type": "form",
-                              "initApi": "${API_HOST}/v1/administrator/secure/me",
-                              "body": [
-                                {
-                                  "type": "tpl",
-                                  "tpl": "两步验证可以为您的账户提供额外的安全保护。启用后，每次登录时都需要输入验证码。",
-                                  "className": "mb-3"
-                                },
-                                {
-                                  "type": "tpl",
-                                  "tpl": "当前状态：${two_factor_enabled ? '已启用' : '未启用'}",
-                                  "className": "mb-3"
-                                },
-                                {
-                                  "type": "container",
-                                  "body": [
-                                    {
-                                      "type": "button",
-                                      "label": "启用两步验证",
-                                      "level": "primary",
-                                      "hiddenOn": "this.two_factor_enabled",
-                                      "actionType": "ajax",
-                                      "api": {
-                                        "method": "post",
-                                        "url": "${API_HOST}/v1/administrator/secure/enable-2fa"
-                                      },
-                                      "reload": "form",
-                                      "next": {
-                                        "actionType": "dialog",
-                                        "dialog": {
-                                          "title": "设置两步验证",
-                                          "size": "md",
-                                          "body": {
-                                            "type": "form",
-                                            "api": {
-                                              "method": "post",
-                                              "url": "${API_HOST}/v1/administrator/secure/verify-2fa"
-                                            },
-                                            "body": [
-                                              {
-                                                "type": "tpl",
-                                                "tpl": "请使用 Google Authenticator 或其他兼容的验证器应用扫描下方二维码：",
-                                                "className": "mb-3"
-                                              },
-                                              {
-                                                "type": "image",
-                                                "src": "${qrcode}",
-                                                "width": 200,
-                                                "height": 200,
-                                                "className": "mb-3"
-                                              },
-                                              {
-                                                "type": "tpl",
-                                                "tpl": "或手动输入密钥：${secret}",
-                                                "className": "mb-3"
-                                              },
-                                              {
-                                                "type": "input-text",
-                                                "name": "code",
-                                                "label": "验证码",
-                                                "required": true,
-                                                "placeholder": "请输入验证器显示的 6 位验证码"
-                                              }
-                                            ]
+                            "type": "dialog",
+                            "title": "设置两步验证",
+                            "body": [
+                              {
+                                "type": "tpl",
+                                "tpl": "<p><span class=\"cxd-TplField mb-3\">两步验证可以为您的账户提供额外的安全保护。启用后，每次登录时都需要输入验证码。</span></p>"
+                              },
+                              {
+                                "type": "switch",
+                                "label": "当前状态",
+                                "name": "switch",
+                                "falseValue": false,
+                                "trueValue": true,
+                                "onText": "已启用",
+                                "offText": "未启用",
+                                "value": "${IF(two_factor_enabled,true,false)}",
+                                "onEvent": {
+                                  "change": {
+                                    "actions": [
+                                      {
+                                        "actionType": "ajax",
+                                        "api": {
+                                          "url": "${API_HOST}/v1/administrator/secure/toggle-2fa",
+                                          "method": "post",
+                                          "data": {
+                                            "enabled": "${event.data.value}"
                                           }
                                         }
                                       }
-                                    },
-                                    {
-                                      "type": "button",
-                                      "label": "禁用两步验证",
-                                      "level": "danger",
-                                      "visibleOn": "this.two_factor_enabled",
-                                      "confirmText": "确定要禁用两步验证吗？这将降低账户的安全性。",
-                                      "actionType": "ajax",
-                                      "api": {
-                                        "method": "post",
-                                        "url": "${API_HOST}/v1/administrator/secure/disable-2fa"
+                                    ]
+                                  }
+                                },
+                                "mode": "horizontal",
+                                "optionAtLeft": true
+                              }
+                            ],
+                            "actions": [
+                              {
+                                "type": "button",
+                                "label": "重置密钥",
+                                "level": "danger",
+                                "onEvent": {
+                                  "click": {
+                                    "actions": [
+                                      {
+                                        "ignoreError": false,
+                                        "outputVar": "key_2fa",
+                                        "actionType": "ajax",
+                                        "options": {
+                                          "silent": true
+                                        },
+                                        "api": {
+                                          "url": "${API_HOST}/v1/administrator/secure/enable-2fa",
+                                          "method": "post",
+                                          "requestAdaptor": "",
+                                          "adaptor": "",
+                                          "messages": {},
+                                          "silent": true,
+                                          "replaceData": true
+                                        }
                                       },
-                                      "reload": "form"
-                                    }
-                                  ]
+                                      {
+                                        "ignoreError": false,
+                                        "actionType": "dialog",
+                                        "dialog": {
+                                          "type": "dialog",
+                                          "title": "重置密钥",
+                                          "body": [
+                                            {
+                                              "type": "tpl",
+                                              "tpl": "请使用两步验证客户端扫描下方二维码或复制密钥",
+                                              "wrapperComponent": "h3"
+                                            },
+                                            {
+                                              "type": "input-text",
+                                              "label": "密钥",
+                                              "name": "text",
+                                              "staticOn": "",
+                                              "value": "${secret}"
+                                            },
+                                            {
+                                              "type": "image",
+                                              "enlargeAble": false,
+                                              "maxScale": 200,
+                                              "minScale": 50,
+                                              "style": {
+                                                "display": "inline-block"
+                                              },
+                                              "title": "二维码",
+                                              "width": 160,
+                                              "height": 160,
+                                              "imageMode": "thumb",
+                                              "src": "${qrcode}"
+                                            },
+                                            {
+                                              "type": "input-text",
+                                              "label": "验证码",
+                                              "name": "code",
+                                              "maxLength": 6,
+                                              "required": true,
+                                              "validations": {
+                                                "maxLength": 6,
+                                                "minLength": 6
+                                              }
+                                            }
+                                          ],
+                                          "actions": [
+                                            {
+                                              "type": "button",
+                                              "actionType": "confirm",
+                                              "label": "提交",
+                                              "primary": true,
+                                              "onEvent": {
+                                                "click": {
+                                                  "weight": 0,
+                                                  "actions": [
+                                                    {
+                                                      "ignoreError": false,
+                                                      "outputVar": "responseResult",
+                                                      "actionType": "ajax",
+                                                      "options": {},
+                                                      "api": {
+                                                        "method": "post",
+                                                        "url": "${API_HOST}/v1/administrator/secure/verify-2fa",
+                                                        "data": {
+                                                          "code": "${code}",
+                                                          "secret": "${secret}"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          ],
+                                          "showCloseButton": true,
+                                          "closeOnOutside": false,
+                                          "closeOnEsc": false,
+                                          "showErrorMsg": true,
+                                          "showLoading": true,
+                                          "draggable": false
+                                        }
+                                      }
+                                    ]
+                                  }
                                 }
-                              ]
-                            }
+                              }
+                            ]
                           }
                         }
                       ]
