@@ -230,7 +230,9 @@
                                                           "code": "${code}",
                                                           "secret": "${secret}"
                                                         }
-                                                      }
+                                                      },
+                                                      "reload": "form",
+                                                      "close": true
                                                     }
                                                   ]
                                                 }
