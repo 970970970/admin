@@ -51,19 +51,18 @@
           "required": false
         },
         {
+          "type": "editor",
+          "name": "md",
           "label": "内容",
-          "type": "group",
-          "body": [
-            {
-              "type": "editor",
-              "name": "md",
-              "language": "markdown"
-            },
-            {
-              "type": "markdown",
-              "name": "md"
-            }
-          ]
+          "language": "markdown",
+          "required": true,
+          "value": "${content}"
+        },
+        {
+          "type": "markdown",
+          "name": "content",
+          "label": "预览",
+          "value": "${md}"
         },
         {
           "type": "divider"

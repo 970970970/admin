@@ -99,9 +99,19 @@
                   "label": "删除",
                   "level": "danger",
                   "actionType": "ajax",
-                  "confirmText": "您确认要删除?",
-                  "api": "delete:${API_HOST}/v1/media/secure/$id",
-                  "reload": "media_files"
+                  "confirmText": "确定要删除吗？",
+                  "api": "delete:${API_HOST}/v1/articles/secure/${id}",
+                  "reload": "articles"
+                },
+                {
+                  "label": "翻译",
+                  "type": "button",
+                  "actionType": "ajax",
+                  "confirmText": "确定要重新翻译这篇文章吗？",
+                  "api": "post:${API_HOST}/v1/articles/secure/translate/${id}",
+                  "level": "info",
+                  "visibleOn": "!this.origin_id",
+                  "reload": "articles"
                 }
               ]
             }

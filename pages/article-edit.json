@@ -32,15 +32,29 @@
         "controls": [
           {
             "type": "editor",
-            "name": "content",
+            "name": "md",
             "label": "内容",
             "required": true,
-            "language": "markdown"
+            "language": "markdown",
+            "value": "${content}",
+            "onChange": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "preview",
+                  "args": {
+                    "value": "${event.data.value}"
+                  }
+                }
+              ]
+            }
           },
           {
             "type": "markdown",
             "name": "content",
-            "label": "预览"
+            "id": "preview",
+            "label": "预览",
+            "value": "${md}"
           }
         ]
       },
