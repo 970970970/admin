@@ -320,6 +320,12 @@
                 "schemaApi": "get:/pages/crud-edit.json"
               }
             ]
+          },
+          {
+            "label": "品牌管理",
+            "url": "/brand",
+            "icon": "fa fa-tags",
+            "schemaApi": "get:/pages/brand-list.json"
           }
         ]
       }
