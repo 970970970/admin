@@ -24,6 +24,80 @@
       ],
       "className": "m-b-sm"
     },
+    "headerToolbar": [
+      {
+        "type": "button",
+        "label": "新增品牌",
+        "icon": "fa fa-plus",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "新增品牌",
+          "size": "lg",
+          "body": {
+            "type": "form",
+            "api": "post:${API_HOST}/v1/brands/secure",
+            "body": [
+              {
+                "type": "input-text",
+                "name": "name",
+                "label": "品牌名称",
+                "required": true,
+                "placeholder": "请输入品牌名称"
+              },
+              {
+                "type": "textarea",
+                "name": "description",
+                "label": "描述",
+                "required": true,
+                "placeholder": "请输入品牌描述"
+              },
+              {
+                "type": "select",
+                "name": "status",
+                "label": "状态",
+                "required": true,
+                "value": "neutral",
+                "options": [
+                  { "label": "支持", "value": "support" },
+                  { "label": "中立", "value": "neutral" },
+                  { "label": "抵制", "value": "avoid" }
+                ]
+              },
+              {
+                "type": "picker",
+                "name": "logo_media_id",
+                "label": "Logo",
+                "source": "${API_HOST}/v1/media/secure/list",
+                "size": "lg",
+                "pickerSchema": {
+                  "mode": "table",
+                  "name": "thelist",
+                  "columns": [
+                    {
+                      "name": "id",
+                      "label": "ID"
+                    },
+                    {
+                      "name": "preview",
+                      "label": "预览",
+                      "type": "image",
+                      "src": "${MEDIA_HOST}/${path}",
+                      "enlargeAble": true,
+                      "thumbMode": "contain",
+                      "thumbRatio": "4:3"
+                    },
+                    {
+                      "name": "description",
+                      "label": "描述"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
     "perPage": 10,
     "syncLocation": false,
     "columns": [
@@ -74,22 +148,25 @@
             "actionType": "dialog",
             "dialog": {
               "title": "编辑品牌",
+              "size": "lg",
               "body": {
                 "type": "form",
                 "api": "put:${API_HOST}/v1/brands/secure/${id}",
                 "initApi": "${API_HOST}/v1/brands/secure/${id}",
                 "body": [
                   {
-                    "type": "text",
+                    "type": "input-text",
                     "name": "name",
                     "label": "品牌名称",
-                    "required": true
+                    "required": true,
+                    "placeholder": "请输入品牌名称"
                   },
                   {
                     "type": "textarea",
                     "name": "description",
                     "label": "描述",
-                    "required": true
+                    "required": true,
+                    "placeholder": "请输入品牌描述"
                   },
                   {
                     "type": "select",
@@ -101,6 +178,36 @@
                       { "label": "中立", "value": "neutral" },
                       { "label": "抵制", "value": "avoid" }
                     ]
+                  },
+                  {
+                    "type": "picker",
+                    "name": "logo_media_id",
+                    "label": "Logo",
+                    "source": "${API_HOST}/v1/media/secure/list",
+                    "size": "lg",
+                    "pickerSchema": {
+                      "mode": "table",
+                      "name": "thelist",
+                      "columns": [
+                        {
+                          "name": "id",
+                          "label": "ID"
+                        },
+                        {
+                          "name": "preview",
+                          "label": "预览",
+                          "type": "image",
+                          "src": "${MEDIA_HOST}/${path}",
+                          "enlargeAble": true,
+                          "thumbMode": "contain",
+                          "thumbRatio": "4:3"
+                        },
+                        {
+                          "name": "description",
+                          "label": "描述"
+                        }
+                      ]
+                    }
                   }
                 ]
               }
