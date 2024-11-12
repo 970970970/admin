@@ -37,26 +37,6 @@
             "schemaApi": "get:/pages/media-list.json"
           },
           {
-            "label": "公司品牌",
-            "url": "/brands",
-            "icon": "fa fa-university",
-            "schema": {
-              "type": "page",
-              "title": "页面C",
-              "body": "页面C"
-            }
-          },
-          {
-            "label": "反馈管理",
-            "url": "/feedback",
-            "icon": "fa fa-comment",
-            "schema": {
-              "type": "page",
-              "title": "页面C",
-              "body": "页面C"
-            }
-          },
-          {
             "label": "系统设置",
             "url": "/settings",
             "icon": "fa fa-cog",
@@ -288,36 +268,6 @@
                 "url": "/settings/mods",
                 "icon": "fa fa-th-large",
                 "schemaApi": "get:/pages/mod-list.json"
-              }
-            ]
-          },
-          {
-            "label": "列表示例",
-            "url": "/crud",
-            "rewrite": "/crud/list",
-            "icon": "fa fa-cube",
-            "children": [
-              {
-                "label": "列表",
-                "url": "/crud/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/crud-list.json"
-              },
-              {
-                "label": "新增",
-                "url": "/crud/new",
-                "icon": "fa fa-plus",
-                "schemaApi": "get:/pages/crud-new.json"
-              },
-              {
-                "label": "查看",
-                "url": "/crud/:id",
-                "schemaApi": "get:/pages/crud-view.json"
-              },
-              {
-                "label": "修改",
-                "url": "/crud/:id/edit",
-                "schemaApi": "get:/pages/crud-edit.json"
               }
             ]
           },

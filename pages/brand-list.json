@@ -1,201 +1,121 @@
 {
   "type": "page",
   "title": "品牌管理",
-  "body": [
-    {
-      "type": "crud",
-      "name": "brands",
-      "api": {
-        "method": "get",
-        "url": "${API_HOST}/v1/brands/secure?page=${page}&pageSize=${perPage}",
-        "adaptor": "return {\n    ...payload,\n    data: {\n      ...payload.data,\n      count: payload.data.total\n    }\n  }"
-      },
-      "perPage": 10,
-      "pageField": "page",
-      "perPageField": "pageSize",
-      "defaultParams": {
-        "page": 1,
-        "pageSize": 10
-      },
-      "headerToolbar": [
+  "body": {
+    "type": "crud",
+    "api": "${API_HOST}/v1/brands/secure/list?limit=${perPage}&offset=${(page-1)*perPage}&keywords=${keywords}",
+    "filter": {
+      "title": "",
+      "mode": "inline",
+      "wrapWithPanel": false,
+      "submitText": "",
+      "controls": [
         {
-          "type": "button",
-          "label": "新增品牌",
-          "icon": "fa fa-plus",
-          "actionType": "dialog",
-          "dialog": {
-            "title": "新增品牌",
-            "body": {
-              "type": "form",
-              "api": "post:${API_HOST}/v1/brands/secure",
-              "body": [
-                {
-                  "type": "text",
-                  "name": "name",
-                  "label": "品牌名称",
-                  "required": true
-                },
-                {
-                  "type": "textarea",
-                  "name": "description",
-                  "label": "描述",
-                  "required": true
-                },
-                {
-                  "type": "select",
-                  "name": "status",
-                  "label": "状态",
-                  "required": true,
-                  "options": [
-                    { "label": "支持", "value": "support" },
-                    { "label": "中立", "value": "neutral" },
-                    { "label": "抵制", "value": "avoid" }
-                  ]
-                },
-                {
-                  "type": "select",
-                  "name": "entity_type",
-                  "label": "类型",
-                  "required": true,
-                  "options": [
-                    { "label": "品牌", "value": "brand" },
-                    { "label": "公司", "value": "company" }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "name": "website",
-                  "label": "网站"
-                },
-                {
-                  "type": "text",
-                  "name": "logo_url",
-                  "label": "Logo URL"
-                },
-                {
-                  "type": "textarea",
-                  "name": "alternatives_text",
-                  "label": "替代品说明"
-                }
-              ]
-            }
-          }
+          "type": "text",
+          "name": "keywords",
+          "placeholder": "通过关键字搜索",
+          "addOn": {
+            "label": "搜索",
+            "type": "submit",
+            "className": "btn-success"
+          },
+          "clearable": true
         }
       ],
-      "columns": [
-        {
-          "name": "id",
-          "label": "ID",
-          "width": 80
-        },
-        {
-          "name": "name",
-          "label": "品牌名称",
-          "sortable": true
-        },
-        {
-          "name": "entity_type",
-          "label": "类型",
-          "sortable": true,
-          "map": {
-            "brand": "品牌",
-            "company": "公司"
-          }
-        },
-        {
-          "name": "status",
-          "label": "状态",
-          "sortable": true,
-          "map": {
-            "support": "支持",
-            "neutral": "中立",
-            "avoid": "抵制"
-          }
-        },
-        {
-          "name": "description",
-          "label": "描述",
-          "width": 200
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "buttons": [
-            {
-              "type": "button",
-              "label": "编辑",
-              "actionType": "dialog",
-              "dialog": {
-                "title": "编辑品牌",
-                "body": {
-                  "type": "form",
-                  "api": "put:${API_HOST}/v1/brands/secure/${id}",
-                  "initApi": "${API_HOST}/v1/brands/secure/${id}",
-                  "body": [
-                    {
-                      "type": "text",
-                      "name": "name",
-                      "label": "品牌名称",
-                      "required": true
-                    },
-                    {
-                      "type": "textarea",
-                      "name": "description",
-                      "label": "描述",
-                      "required": true
-                    },
-                    {
-                      "type": "select",
-                      "name": "status",
-                      "label": "状态",
-                      "required": true,
-                      "options": [
-                        { "label": "支持", "value": "support" },
-                        { "label": "中立", "value": "neutral" },
-                        { "label": "抵制", "value": "avoid" }
-                      ]
-                    },
-                    {
-                      "type": "select",
-                      "name": "entity_type",
-                      "label": "类型",
-                      "required": true,
-                      "options": [
-                        { "label": "品牌", "value": "brand" },
-                        { "label": "公司", "value": "company" }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "name": "website",
-                      "label": "网站"
-                    },
-                    {
-                      "type": "text",
-                      "name": "logo_url",
-                      "label": "Logo URL"
-                    },
-                    {
-                      "type": "textarea",
-                      "name": "alternatives_text",
-                      "label": "替代品说明"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "type": "button",
-              "label": "删除",
-              "level": "danger",
-              "actionType": "ajax",
-              "confirmText": "确定要删除该品牌吗？",
-              "api": "delete:${API_HOST}/v1/brands/secure/${id}",
-              "reload": "brands"
-            }
-          ]
+      "className": "m-b-sm"
+    },
+    "perPage": 10,
+    "syncLocation": false,
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID",
+        "width": 80
+      },
+      {
+        "name": "logo",
+        "label": "Logo",
+        "type": "image",
+        "src": "${logo_media_id ? `${MEDIA_HOST}/${logo_path}` : ''}",
+        "enlargeAble": true,
+        "thumbMode": "contain",
+        "thumbRatio": "4:3",
+        "width": 100,
+        "height": 75,
+        "placeholder": "暂无图片"
+      },
+      {
+        "name": "name",
+        "label": "品牌名称",
+        "sortable": true
+      },
+      {
+        "name": "status",
+        "label": "状态",
+        "type": "mapping",
+        "map": {
+          "support": "支持",
+          "neutral": "中立",
+          "avoid": "抵制"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "name": "description",
+        "label": "描述",
+        "width": 300
+      },
+      {
+        "type": "operation",
+        "label": "操作",
+        "buttons": [
+          {
+            "type": "button",
+            "label": "编辑",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "编辑品牌",
+              "body": {
+                "type": "form",
+                "api": "put:${API_HOST}/v1/brands/secure/${id}",
+                "initApi": "${API_HOST}/v1/brands/secure/${id}",
+                "body": [
+                  {
+                    "type": "text",
+                    "name": "name",
+                    "label": "品牌名称",
+                    "required": true
+                  },
+                  {
+                    "type": "textarea",
+                    "name": "description",
+                    "label": "描述",
+                    "required": true
+                  },
+                  {
+                    "type": "select",
+                    "name": "status",
+                    "label": "状态",
+                    "required": true,
+                    "options": [
+                      { "label": "支持", "value": "support" },
+                      { "label": "中立", "value": "neutral" },
+                      { "label": "抵制", "value": "avoid" }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "button",
+            "label": "删除",
+            "level": "danger",
+            "actionType": "ajax",
+            "confirmText": "确定要删除该品牌吗？",
+            "api": "delete:${API_HOST}/v1/brands/secure/${id}"
+          }
+        ]
+      }
+    ]
+  }
 } 

@@ -24,6 +24,8 @@
       ],
       "className": "m-b-sm"
     },
+    "perPage": 10,
+    "syncLocation": false,
     "headerToolbar": [
       {
         "type": "button",
@@ -82,7 +84,7 @@
         "name": "url",
         "label": "预览",
         "type": "image",
-        "src": "${API_HOST}/v1/media/local/${path}",
+        "src": "${MEDIA_HOST}/${path}",
         "enlargeAble": true,
         "thumbMode": "contain",
         "thumbRatio": "4:3",
@@ -121,10 +123,24 @@
             "actionType": "dialog",
             "dialog": {
               "title": "编辑文件信息",
+              "size": "lg",
               "body": {
                 "type": "form",
                 "api": "put:${API_HOST}/v1/media/secure/${id}",
+                "initApi": "${API_HOST}/v1/media/secure/${id}",
                 "body": [
+                  {
+                    "type": "input-file",
+                    "name": "file",
+                    "label": "文件",
+                    "accept": "image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx",
+                    "maxSize": 52428800,
+                    "receiver": "${API_HOST}/v1/media/secure/upload/tmp",
+                    "autoFill": {
+                      "value": "$$response.data.path"
+                    },
+                    "description": "如果不上传新文件则保持原文件不变"
+                  },
                   {
                     "type": "textarea",
                     "name": "description",
@@ -144,6 +160,16 @@
           }
         ]
       }
+    ],
+    "footable": {
+      "expand": "all"
+    },
+    "alwaysShowPagination": true,
+    "perPageAvailable": [
+      10,
+      20,
+      50,
+      100
     ]
   }
 }
